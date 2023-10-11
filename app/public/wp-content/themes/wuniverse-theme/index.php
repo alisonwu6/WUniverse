@@ -1,20 +1,10 @@
 <?php 
-  // echo 2+2
+  $name = array('Alison', 'Renee', 'Michael', 'Bob');
 
-  // this is function definition
-  function myFirstFunction() {
-    echo 2 + 2;
+  $count = 0;
+
+  while($count < count($name)) {
+    echo "<li>Hi, my name is $name[$count]</li>";
+    $count++;
   }
-  // call
-  // myFirstFunction();
-
-  function greet($name, $color) {
-    echo "<p>Hi, my name is $name and my favorite color is $color. </p>";
-  }
-
-  greet("Alison", "yellow");
-  greet("John", "seagreen");
 ?>
-
-<h1><?php blogInfo("name")?></h1>
-<p><?php blogInfo("description")?></p>
