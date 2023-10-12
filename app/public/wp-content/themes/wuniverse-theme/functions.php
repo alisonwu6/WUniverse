@@ -1,7 +1,5 @@
-<!-- This is where we can have a conversation with the WordPress system itself -->
-
 <?php
-
+// This is where we can have a conversation with the WordPress system itself
 // loading js and css files
 function wuniverse_files() {
   wp_enqueue_script('main-wus-blog-js', get_theme_file_uri('/build/index.js'), array('jquery'), '1.0', true);
