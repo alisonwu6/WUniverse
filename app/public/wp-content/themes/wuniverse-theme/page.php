@@ -16,7 +16,7 @@
     <div class="container container--narrow page-section">
       
       <?php 
-        $theParent = wp_get_post_parent_id(get_the_ID());
+        $theParent = wp_get_post_parent_id(get_the_ID()); 
         if ($theParent) { ?>
           <div class="metabox metabox--position-up metabox--with-home-link">
             <p>
@@ -29,13 +29,32 @@
         <?php }
       ?>
 
-      <!-- <div class="page-links">
-        <h2 class="page-links__title"><a href="#">About Us</a></h2>
+      <?php 
+      $testArray = get_pages(array(
+        'child_of' => get_the_ID()
+      ));
+      
+      // if the current page has a parent or if it is a parent, which is neither a child page or a parent page. 
+      if($theParent or $testArray) { ?>
+      <div class="page-links">
+        <h2 class="page-links__title"><a href="<?php echo get_permalink($theParent); ?>"><?php echo get_the_title($theParent); ?></a></h2>
         <ul class="min-list">
-          <li class="current_page_item"><a href="#">Our History</a></li>
-          <li><a href="#">Our Goals</a></li>
+          <?php 
+            if ($theParent) {
+              $findChildrenOf = $theParent;
+            } else {
+              $findChildrenOf = get_the_ID();
+            }
+
+            wp_list_pages(array(
+              'title_li' => NULL,
+              'child_of' => $findChildrenOf,
+              'sort_column' => 'menu_order'
+            ));
+          ?>
         </ul>
-      </div> -->
+      </div>
+      <?php } ?>
 
       <div class="generic-content">
         <?php the_content(); ?>
