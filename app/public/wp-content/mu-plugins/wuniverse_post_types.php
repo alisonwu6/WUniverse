@@ -2,6 +2,7 @@
 
 function wuniverse_post_types() {
   register_post_type('event', array(
+    'supports' => array('title', 'editor', 'excerpt'), // 'editor' - modern screen
     'rewrite' => array('slug' => 'events'),   // changing slug into plural
     'has_archive' => true,
     'public' => true,
