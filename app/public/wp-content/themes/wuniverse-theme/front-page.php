@@ -18,10 +18,10 @@
       <?php 
         $today = date('Ymd');
         $homepageEvents = new WP_Query(array(
-          'posts_per_page' => 2,
+          'posts_per_page' => 2,           // -1 is going to all show all items.
           'post_type' => 'event',
           'meta_key' => 'event_date',
-          'orderby' => 'meta_value',   // title || rand
+          'orderby' => 'meta_value_num',   // title || rand
           'order' => 'ASC',
           'meta_query' => array(
             array(
