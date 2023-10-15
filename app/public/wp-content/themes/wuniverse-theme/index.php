@@ -31,7 +31,7 @@
       </div>
     </div>
   <?php }
-  echo paginate_links();
+  echo paginate_links();   // only works with the default URL based query
 ?>
 </div>
 
