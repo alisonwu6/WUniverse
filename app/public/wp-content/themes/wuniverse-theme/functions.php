@@ -77,3 +77,10 @@ function wuniverse_adjust_queries($query) {
 }
 
 add_action('pre_get_posts', 'wuniverse_adjust_queries');
+
+function wuniverseMapKey($api) {
+  $api['key'] = 'AIzaSyC6Blnd187x-o5R_IemhFhtcD8cPw-u-ao';
+  return $api;
+}
+
+add_filter('acf/fields/google_map/api', 'wuniverseMapKey');
