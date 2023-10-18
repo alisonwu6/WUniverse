@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="<?php bloginfo('charset') ?>">
-  <meta name="viewport" content="width=deice-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <?php wp_head(); ?>
 </head>
 
@@ -27,7 +27,9 @@
             <li <?php if (get_post_type() == 'event') echo 'class="current-menu-item"' ?>>
               <a href="<?php echo get_post_type_archive_link('event'); ?>">Events</a>
             </li>
-            <li><a href="#">Campuses</a></li>
+            <li <?php if (get_post_type() == 'campus') echo 'class="current-menu-item"' ?>>
+              <a href="<?php echo get_post_type_archive_link('campus') ?>">Campuses</a>
+            </li>
             <li <?php if (get_post_type() == 'post') echo 'class="current-menu-item"' ?>>
               <a href="<?php echo site_url('/blog') ?>">Blog</a>
             </li>
