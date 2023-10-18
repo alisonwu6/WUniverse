@@ -54,14 +54,18 @@ function wuniverse_features() {
 add_action('after_setup_theme', 'wuniverse_features');
 
 function wuniverse_adjust_queries($query) {
-  if (!is_admin() AND is_post_type_archive('program') AND is_main_query()) {
+  if (!is_admin() AND is_post_type_archive('campus') AND $query->is_main_query()) {
+    $query->set('posts_per_page', -1);
+  }
+  
+  if (!is_admin() AND is_post_type_archive('program') AND $query->is_main_query()) {
     $query->set('orderby', 'title');
     $query->set('order', 'ASC');
     $query->set('posts_per_page', -1);
   }
 
   // $query->set('posts_per_page', '1');   // this line of code is going to manipulate every single query on our website; admin, too.
-  if (!is_admin() AND is_post_type_archive('event') AND is_main_query()) { // is_main_query(): will only evaluate to true if the query in question is the default URL based query.
+  if (!is_admin() AND is_post_type_archive('event') AND $query->is_main_query()) { // is_main_query(): will only evaluate to true if the query in question is the default URL based query.
     $today = date('Ymd');
     $query->set('meta_key', 'event_date');
     $query->set('orderby', 'meta_value_num');
