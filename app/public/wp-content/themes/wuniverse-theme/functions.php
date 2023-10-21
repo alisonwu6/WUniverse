@@ -1,5 +1,12 @@
 <?php
 // This is where we can have a conversation with the WordPress system itself
+function wuniverse_custom_reset() {
+  register_rest_field('post', 'authorName', array(
+    'get_callback' => function() {return get_the_author(); }
+  ));
+}
+
+add_action('rest_api_init', 'wuniverse_custom_reset');
 
 function pageBanner($args = NULL) {
   // php logic will live here
