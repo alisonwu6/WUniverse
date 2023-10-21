@@ -6,10 +6,24 @@ function wuniverseRegisterSearch() {
   // 3 argus are -> namespace | route | what should happen when someone visits this URL.
   register_rest_route('wuniverse/v1', 'search', array(
     'methods' => WP_REST_Server::READABLE, // equals to 'GET'
-    'callback' => 'wuniverseSearchResult'
+    'callback' => 'wuniverseSearchResults'
   ));
 }
 
-function wuniverseSearchResult() {
-  return 'Congratulations, you created a route';
+function wuniverseSearchResults() {
+  $professions = new WP_Query(array(
+    'post_type' => 'professor'
+  ));
+
+  $professorResults = array();
+
+  while($professions->have_posts()) {
+    $professions->the_post();
+    array_push($professorResults, array(
+      'title' => get_the_title(),
+      'permalink' => get_the_permalink(),
+    ));
+  }
+
+  return $professorResults;
 }
