@@ -12,7 +12,7 @@ function wuniverseRegisterSearch() {
 
 function wuniverseSearchResults($data) {
   $mainQuery = new WP_Query(array(
-    'post_type' => array('post', 'page', 'professor'),
+    'post_type' => array('post', 'page', 'professor', 'program', 'campus', 'event'),
     's' => sanitize_text_field($data['term']),
   ));
 
@@ -31,6 +31,8 @@ function wuniverseSearchResults($data) {
       array_push($results['generalInfo'], array(
         'title' => get_the_title(),
         'permalink' => get_the_permalink(),
+        'postType'=> get_post_type(),
+        'authorName' => get_the_author(),
       ));
     }
 
