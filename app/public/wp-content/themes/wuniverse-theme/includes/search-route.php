@@ -89,13 +89,13 @@ function wuniverseSearchResults($data) {
       ));
     }
   
-    $programRelationShipQuery = new WP_Query(array(
+    $programRelationshipQuery = new WP_Query(array(
       'post_type' => 'professor',
       'meta_query' => $programsMetaQuery
     ));
   
-    while($programRelationShipQuery->have_posts()) {
-      $programRelationShipQuery->the_post();
+    while($programRelationshipQuery->have_posts()) {
+      $programRelationshipQuery->the_post();
   
       if (get_post_type() == 'professor') {
         array_push($results['professors'], array(
