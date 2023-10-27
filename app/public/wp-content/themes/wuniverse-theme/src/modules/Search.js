@@ -120,6 +120,7 @@ class Search {
     this.searchField.val("");
     // console.log("our open method just ran!");
     this.isOverlayOpen = true;
+    return false;
   }
 
   closeOverlay() {
