@@ -50,13 +50,7 @@
 
       <div class="generic-content">
         <!-- a method of get will make sure that the contents of the form end up in the URL -->
-        <form class="search-form" method="get" action="<?php echo esc_url(site_url('/')); ?>">   
-          <label class="headline headline--medium" for="s">Perform a New Search:</label>
-          <div class="search-form-row">
-            <input id="s" class="s" placeholder="What are you looking for?" type="search" name="s">
-            <input class="search-submit" type="submit" value="Search">
-          </div>
-        </form>
+        <?php get_search_form(); ?>
       </div>
       
     </div>
