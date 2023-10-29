@@ -134,10 +134,9 @@ function wuniverseSearchResults($data) {
         ));
       }
     }
-    // $results['professors'] = array_values(array_unique($results['professors'], SORT_REGULAR)); // it seems no need to use array_values
     // remove duplicates
-    $results['professors'] = array_unique($results['professors'], SORT_REGULAR);
-    $results['events'] = array_unique($results['events'], SORT_REGULAR);
+    $results['professors'] = array_values(array_unique($results['professors'], SORT_REGULAR));
+    $results['events'] = array_values(array_unique($results['events'], SORT_REGULAR));
   }
 
   return $results;
