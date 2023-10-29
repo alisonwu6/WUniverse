@@ -3,6 +3,8 @@
 function wuniverse_post_types() {
   // Campus Post Type
   register_post_type('campus', array(
+    'capability_type' => 'campus',
+    'map_meta_cap' => true,
     'supports' => array('title', 'editor', 'excerpt'), // 'editor' - modern screen
     'rewrite' => array('slug' => 'campuses'),   // changing slug into plural
     'has_archive' => true,
@@ -20,6 +22,8 @@ function wuniverse_post_types() {
 
   // Event Post Type
   register_post_type('event', array(
+    'capability_type' => 'event', // default: post. Require its own unique permissions and capabilities
+    'map_meta_cap' => true,
     'supports' => array('title', 'editor', 'excerpt'), // 'editor' - modern screen
     'rewrite' => array('slug' => 'events'),   // changing slug into plural
     'has_archive' => true,
