@@ -70,6 +70,22 @@ function wuniverse_post_types() {
     ),
     'menu_icon' => 'dashicons-welcome-learn-more'
   ));
+
+  // Note Post Type
+  register_post_type('note', array(
+    'show_in_rest' => true,
+    'supports' => array('title', 'editor', 'thumbnail'),
+    'public' => false,
+    'show_ui' => true, // show in admin
+    'labels' => array(
+      'name' => 'Notes',
+      'add_new_item' => 'Add New Note',
+      'edit_item' => "Edit Note",
+      'all_items' => 'All Notes',
+      'singular_name' => 'Note'
+    ),
+    'menu_icon' => 'dashicons-welcome-write-blog'
+  ));
 }
 
 add_action('init', 'wuniverse_post_types');
