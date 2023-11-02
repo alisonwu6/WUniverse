@@ -37,8 +37,6 @@ function pageBanner($args = NULL) {
   </div>
 <?php }
 
-
-
 // loading js and css files
 function wuniverse_files() {
   wp_enqueue_script('googleMap', '//maps.googleapis.com/maps/api/js?key=AIzaSyC6Blnd187x-o5R_IemhFhtcD8cPw-u-ao', NULL, '1.0', true);
@@ -50,6 +48,7 @@ function wuniverse_files() {
 
   wp_localize_script('main-wuniverse-js', 'wuniverseData', array(
     'root_url' => get_site_url(),
+    'nonce' => wp_create_nonce('wp_rest'),  // check user permission
   ));
 }
 
