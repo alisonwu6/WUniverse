@@ -7,8 +7,8 @@ class MyNotes {
 
   events() {
     $("#my-notes").on("click", ".delete-note", this.deleteNote);
-    $("#my-notes").on("click", ".edit-note", this.editNote);
-    $("#my-notes").on("click", ".update-note", this.updateNote);
+    $("#my-notes").on("click", ".edit-note", this.editNote.bind(this));
+    $("#my-notes").on("click", ".update-note", this.updateNote.bind(this));
     $(".submit-note").on("click", this.createNote.bind(this));
   }
 
@@ -84,6 +84,9 @@ class MyNotes {
         console.log('response', response)
       },
       error: (response) => {
+        if (response.responseText == 'You have reached your note limit.') {
+          $(".note-limit-message").addClass('active');
+        }
         console.log("sorry");
         console.log('response', response)
       }
@@ -115,9 +118,11 @@ class MyNotes {
       type: 'DELETE',
       success: (response) => {
         thisNote.slideUp();
-
         console.log("congrats");
         console.log('response', response)
+        if (response.userNoteCount < 5) {
+          $(".note-limit-message").removeClass('active');
+        }
       },
       error: (response) => {
         console.log("sorry");
