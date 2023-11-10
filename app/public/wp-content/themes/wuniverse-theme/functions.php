@@ -1,5 +1,6 @@
 <?php
 // This is where we can have a conversation with the WordPress system itself
+require get_theme_file_path("/includes/like-route.php");
 require get_theme_file_path("/includes/search-route.php");
 
 function wuniverse_custom_reset() {
