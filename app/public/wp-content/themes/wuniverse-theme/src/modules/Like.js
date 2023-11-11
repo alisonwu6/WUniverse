@@ -22,6 +22,9 @@ class Like {
 
   createLike(currentLikeBox) {
     $.ajax({
+      beforeSend: (xhr) => {
+        xhr.setRequestHeader('X-WP-Nonce', wuniverseData.nonce);
+      },
       url: wuniverseData.root_url + '/wp-json/wuniverse/v1/manageLike',
       type: 'POST',
       data: {
@@ -38,6 +41,9 @@ class Like {
 
   deleteLike() {
     $.ajax({
+      beforeSend: (xhr) => {
+        xhr.setRequestHeader('X-WP-Nonce', wuniverseData.nonce);
+      },
       url: wuniverseData.root_url + '/wp-json/wuniverse/v1/manageLike',
       type: 'DELETE',
       success: (response) => {
