@@ -1,13 +1,34 @@
 import "./index.scss"
 import { TextControl, Flex, FlexBlock, FlexItem, Button, Icon } from "@wordpress/components";
 
+(function()  {
+  let locked = false
+
+  wp.data.subscribe(function() {
+    const results = wp.data.select("core/block-editor").getBlocks().filter(function(block) {
+      return block.name == "ourplugin/our-js-block-type" && block.attributes.correctAnswer == undefined;
+    })
+
+    if (results.length && locked == false) {
+      locked = true;
+      wp.data.dispatch("core/editor").lockPostSaving("noanswer");
+    }
+
+    if (!results.length && locked) {
+      locked = false;
+      wp.data.dispatch("core/editor").unlockPostSaving("noanswer");
+    }
+  })
+})();
+
 wp.blocks.registerBlockType("ourplugin/our-js-block-type", {
   title: "Our Js Block Type",
   icon: "smiley",
   category: "common",
   attributes: {
     question: { type: "string" },
-    answers: { type: "array", default: ["red", "blue", "green"]},
+    answers: { type: "array", default: [""]},
+    correctAnswer: { type: "number", default: undefined }
   },
   edit: EditComponent,
   save: function (props) {
@@ -21,11 +42,18 @@ function EditComponent(props) {
   }
 
   function deleteAnswer(indexToDelete) {
-    console.log('props.attributes.answers', props.attributes.answers)
     const newAnswers = props.attributes.answers.filter(function(x, index) {
       return index != indexToDelete;
     })
     props.setAttributes({answers: newAnswers})
+
+    if (indexToDelete == props.attributes.correctAnswer) {
+      props.setAttributes({correctAnswer: undefined})
+    }
+  }
+
+  function markAsCorrect(index) {
+    props.setAttributes({correctAnswer: index})
   }
 
   return (
@@ -43,8 +71,8 @@ function EditComponent(props) {
               }} />
             </FlexBlock>
             <FlexItem>
-              <Button>
-                <Icon className="mark-as-correct" icon="star-empty" />
+              <Button onClick={() => markAsCorrect(index)}>
+                <Icon className="mark-as-correct" icon={props.attributes.correctAnswer == index ? 'star-filled' : 'star-empty'} />
               </Button>
             </FlexItem>
             <FlexItem>
