@@ -22,8 +22,6 @@ wp.blocks.registerBlockType("ourplugin/our-js-block-type", {
     )
   },
   save: function (props) {
-    return (
-      <p>Today the sky is {props.attributes.skyColor} and the grass is {props.attributes.grassColor}.</p>
-    )
+    return null
   }
 })
