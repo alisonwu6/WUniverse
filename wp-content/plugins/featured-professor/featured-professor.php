@@ -30,6 +30,12 @@ class FeaturedProfessor {
   }
 
   function onInit() {
+    register_meta('post', 'featuredprofessor', array(
+      'show_in_rest' => true,
+      'type' => 'number',
+      'single' => false
+    ));
+
     wp_register_script('featuredProfessorScript', plugin_dir_url(__FILE__) . 'build/index.js', array('wp-blocks', 'wp-i18n', 'wp-editor'));
     wp_register_style('featuredProfessorStyle', plugin_dir_url(__FILE__) . 'build/index.css');
 

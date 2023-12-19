@@ -21,15 +21,35 @@ function EditComponent(props) {
   const [thePreview, setThePreview] = useState("");
 
   useEffect(() => {
-    async function go() {
-      const response = await apiFetch({
-        path: `/featuredProfessor/v1/getHTML?profId=${props.attributes.profId}`,
-        method: "GET",
-      })
-      setThePreview(response);
+    if (props.attributes.profId) {
+      updateTheMeta();
+      async function go() {
+        const response = await apiFetch({
+          path: `/featuredProfessor/v1/getHTML?profId=${props.attributes.profId}`,
+          method: "GET",
+        })
+        setThePreview(response);
+      }
+      go();
     }
-    go();
   }, [props.attributes.profId]);
+
+  useEffect(() => {
+    return () => {
+      return updateTheMeta();   // called when the block gets deleted or unmounted. 
+    };
+  }, []);  // an empty array indicates that react will only call this the very first time that this component renders.
+
+  function updateTheMeta() {
+    const profsForMeta = wp.data.select("core/block-editor")
+      .getBlocks()
+      .filter(x => x.name == "ourplugin/featured-professor")
+      .map(x => x.attributes.profId)
+      .filter((x, index, arr) => {
+        return arr.indexOf(x) == index
+      })
+    wp.data.dispatch("core/editor").editPost({meta: {featuredprofessor: profsForMeta}})
+  }
 
   const allProfs = useSelect(select => {
     return select("core").getEntityRecords("postType", "professor", {per_page: -1})
