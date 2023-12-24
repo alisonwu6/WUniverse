@@ -17,9 +17,38 @@ class PetAdoptionTablePlugin {
     $this->tablename = $wpdb->prefix . "pets";
 
     add_action('activate_new-database-table/new-database-table.php', array($this, 'onActivate'));
-    // add_action('admin_head', array($this, 'onAdminRefresh'));
+    //add_action('admin_head', array($this, 'populateFast'));
+    add_action('admin_post_createpet', array($this, 'createPet'));
+    add_action('admin_post_nopriv_createpet', array($this, 'createPet'));
+    add_action('admin_post_deletepet', array($this, 'deletePet'));
+    add_action('admin_post_nopriv_deletepet', array($this, 'deletePet'));
     add_action('wp_enqueue_scripts', array($this, 'loadAssets'));
     add_filter('template_include', array($this, 'loadTemplate'), 99);
+  }
+
+  function deletePet() {
+    if (current_user_can('administrator')) {
+      $id = sanitize_text_field($_POST['idtodelete']);
+      global $wpdb;
+      $wpdb->delete($this->tablename, array('id' => $id));
+      wp_safe_redirect(site_url('/pet-adoption'));
+    } else {
+      wp_safe_redirect(site_url());
+    }
+    exit;
+  }
+
+  function createPet() {
+    if (current_user_can('administrator')) {
+      $pet = generatePet();
+      $pet['petname'] = sanitize_text_field($_POST['incomingpetname']);
+      global $wpdb;
+      $wpdb->insert($this->tablename, $pet);
+      wp_safe_redirect(site_url('/pet-adoption'));
+    } else {
+      wp_safe_redirect(site_url());
+    }
+    exit;
   }
 
   function onActivate() {
@@ -27,20 +56,19 @@ class PetAdoptionTablePlugin {
     dbDelta("CREATE TABLE $this->tablename (
       id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
       birthyear smallint(5) NOT NULL DEFAULT 0,
-      petweight samllint(5) NOT NULL DEFAULT 0,
+      petweight smallint(5) NOT NULL DEFAULT 0,
       favfood varchar(60) NOT NULL DEFAULT '',
       favhobby varchar(60) NOT NULL DEFAULT '',
       favcolor varchar(60) NOT NULL DEFAULT '',
-      petwname varchar(60) NOT NULL DEFAULT '',
+      petname varchar(60) NOT NULL DEFAULT '',
       species varchar(60) NOT NULL DEFAULT '',
       PRIMARY KEY  (id)
-    ) charset;");
+    ) $this->charset;");
   }
 
   function onAdminRefresh() {
     global $wpdb;
     $wpdb->insert($this->tablename, generatePet());
-
   }
 
   function loadAssets() {
